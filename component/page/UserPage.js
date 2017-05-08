@@ -9,10 +9,16 @@ import {
   ListView,
   TouchableHighlight
 } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import UserDetail from './DetailPage'
 
 var API = 'http://localhost:8080/v1/search/user?query=hoge';
 
 class UserPage extends React.Component {
+
+  static navigationOptions = {
+    header: null,
+  };
 
   constructor(props) {
     super(props);
@@ -20,24 +26,24 @@ class UserPage extends React.Component {
         items: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     }
   }
-    
+
   componentDidMount() {
       this._fetchData();
   }
-  
+
   render() {
     return (
-      <ListView 
+      <ListView
         dataSource={this.state.items}
-        renderRow={this._renderItem} />
+        renderRow={this._renderItem.bind(this)} />
     );
   }
-  
+
   _renderItem(item, sectionId, rowId) {
     return (
-      <TouchableHighlight onPress={() => this._navigateDetail(item)}>
+      <TouchableHighlight onPress={this._navigateDetail.bind(this)}>
           <View style={{padding: 10, flexDirection: 'row'}}>
-            <Image source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}} style={{height: 50, width: 50}}/>
+            <Image source={require('../imgs/react.png')} style={{height: 50, width: 50}}/>
             <View style={{flex:1, justifyContent: 'center', alignItems: 'flex-start', paddingLeft: 20}}>
                 <Text>{item.name}</Text>
             </View>
@@ -45,10 +51,12 @@ class UserPage extends React.Component {
       </TouchableHighlight>
     );
   }
-  
-  _navidateDetail(item) {
+
+  _navigateDetail(item) {
+    const { navigate } = this.props.navigation;
+    navigate('Child')
   }
-  
+
   _fetchData() {
     fetch(API)
       .then((res) => res.json())
@@ -64,4 +72,10 @@ class UserPage extends React.Component {
 
 }
 
-module.exports = UserPage;
+// ナビゲーションでラップ
+const BaseApp = StackNavigator({
+    Home: {screen: UserPage},
+    Child: {screen: UserDetail},
+});
+
+module.exports = BaseApp;

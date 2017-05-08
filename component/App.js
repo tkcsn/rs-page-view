@@ -9,18 +9,13 @@ import {
   View,
 } from 'react-native';
 import {IndicatorViewPager, PagerTitleIndicator} from 'rn-viewpager';
-import { StackNavigator } from 'react-navigation';
 
 import TagPage from './page/TagPage';
 import UserPage from './page/UserPage';
 import BrandPage from './page/BrandPage';
 
 class App extends React.Component {
-    
-  static navigationOptions = {
-    header: null,
-  };
-  
+
   state = {
     selectedTab: 'search'
   };
@@ -32,7 +27,7 @@ class App extends React.Component {
         tintColor="red"
         unselectedItemTintColor="gray"
         barTintColor="lightgray">
-        
+
         <TabBarIOS.Item
           systemIcon="favorites"
           selected={this.state.selectedTab === 'timeline'}
@@ -43,7 +38,7 @@ class App extends React.Component {
           }}>
           {this._renderContent('#414A8C', 'Timeline')}
         </TabBarIOS.Item>
-        
+
         <TabBarIOS.Item
           systemIcon="search"
           selected={this.state.selectedTab === 'search'}
@@ -54,7 +49,7 @@ class App extends React.Component {
           }}>
           <Search />
         </TabBarIOS.Item>
-        
+
         <TabBarIOS.Item
           systemIcon="more"
           selected={this.state.selectedTab === 'more'}
@@ -65,11 +60,11 @@ class App extends React.Component {
           }}>
           {this._renderContent('#21551C', 'More Tab')}
         </TabBarIOS.Item>
-        
+
       </TabBarIOS>
     );
   }
-  
+
   _renderContent = (color: string, pageText: string, num?: number) => {
     return (
       <View style={[styles.tabContent, {backgroundColor: color}]}>
@@ -91,29 +86,29 @@ class Search extends Component {
             placeholder="キーワードで探す" />
         </View>
 
-        <IndicatorViewPager 
-            style={{flex:1, flexDirection: 'column-reverse', backgroundColor:'white'}} 
+        <IndicatorViewPager
+            style={{flex:1, flexDirection: 'column-reverse', backgroundColor:'white'}}
             indicator={this._renderTitleIndicator()}
             directionalLockEnabled={true}
         >
-        
-            <View style={{backgroundColor:'powderblue'}}>
-                <UserPage />
+
+            <View style={{backgroundColor:'steelblue'}}>
+                <Text>page three</Text>
             </View>
             <View style={{backgroundColor:'skyblue'}}>
                 <TagPage />
             </View>
-            <View style={{backgroundColor:'steelblue'}}>
-                <Text>page three</Text>
+            <View style={{backgroundColor:'powderblue'}}>
+                <UserPage />
             </View>
-            
+
         </IndicatorViewPager>
 
       </View>
     );
   }
   _renderTitleIndicator() {
-      return <PagerTitleIndicator titles={['one', 'two', 'three']} />;
+      return <PagerTitleIndicator titles={['HOT', '#', 'ユーザ']} />;
   }
 }
 
@@ -128,9 +123,4 @@ var styles = StyleSheet.create({
   },
 });
 
-// ナビゲーションでラップ
-const BaseApp = StackNavigator({
-    Home: {screen: App},
-});
-
-module.exports = BaseApp;
+module.exports = App;
