@@ -9,16 +9,26 @@ import {
   View,
 } from 'react-native';
 import {IndicatorViewPager, PagerTitleIndicator} from 'rn-viewpager';
+import { StackNavigator } from 'react-navigation';
 
 import TagPage from './page/TagPage';
 import UserPage from './page/UserPage';
-import BrandPage from './page/BrandPage';
+import { Dummy } from './common/Dummy';
+import UserDetail from './page/DetailPage'
 
 class App extends React.Component {
 
+  static navigationOptions = {
+    header: null,
+  };
+  
   state = {
     selectedTab: 'search'
   };
+  
+  constructor(props) {
+    super(props)
+  }
 
   render() {
     return (
@@ -47,7 +57,7 @@ class App extends React.Component {
               selectedTab: 'search',
             });
           }}>
-          <Search />
+          <Search navigation={this.props.navigation} />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
@@ -76,7 +86,11 @@ class App extends React.Component {
 }
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={{backgroundColor: "#eee", paddingTop: 20, flex: 1}}>
 
@@ -123,4 +137,10 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = App;
+// ナビゲーションでラップ
+const BaseApp = StackNavigator({
+    Home: {screen: App},
+    UserProfile: {screen: UserDetail},
+});
+
+module.exports = BaseApp;

@@ -9,16 +9,10 @@ import {
   ListView,
   TouchableHighlight
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import UserDetail from './DetailPage'
 
-var API = 'http://localhost:8080/v1/search/user?query=hoge';
+var API = 'http://localhost:8080/api/v1/users/search?q=hoge';
 
 class UserPage extends React.Component {
-
-  static navigationOptions = {
-    header: null,
-  };
 
   constructor(props) {
     super(props);
@@ -41,7 +35,7 @@ class UserPage extends React.Component {
 
   _renderItem(item, sectionId, rowId) {
     return (
-      <TouchableHighlight onPress={this._navigateDetail.bind(this)}>
+      <TouchableHighlight onPress={this.props.onItemClick}>
           <View style={{padding: 10, flexDirection: 'row'}}>
             <Image source={require('../imgs/react.png')} style={{height: 50, width: 50}}/>
             <View style={{flex:1, justifyContent: 'center', alignItems: 'flex-start', paddingLeft: 20}}>
@@ -50,11 +44,6 @@ class UserPage extends React.Component {
           </View>
       </TouchableHighlight>
     );
-  }
-
-  _navigateDetail(item) {
-    const { navigate } = this.props.navigation;
-    navigate('Child')
   }
 
   _fetchData() {
@@ -72,10 +61,4 @@ class UserPage extends React.Component {
 
 }
 
-// ナビゲーションでラップ
-const BaseApp = StackNavigator({
-    Home: {screen: UserPage},
-    Child: {screen: UserDetail},
-});
-
-module.exports = BaseApp;
+module.exports = UserPage;

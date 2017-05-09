@@ -8,7 +8,7 @@ import {
   ListView,
 } from 'react-native';
 
-var API = 'http://localhost:8080/v1/search/tag?query=hoge';
+var API = 'http://localhost:8080/api/v1/tags/search?q=hoge';
 
 class TagPage extends React.Component {
 
